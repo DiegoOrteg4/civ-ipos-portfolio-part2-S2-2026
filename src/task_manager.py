@@ -1,6 +1,9 @@
 from src.task import Task
 from src.file_handler import save_tasks
 from datetime import datetime
+from rich import print
+from rich.table import Table
+from rich.console import Console
 
 
 def add_task(tasks, title, description, due_date):
@@ -60,7 +63,6 @@ def delete_task(tasks, title):
             return True
     return False
 
-
 def list_tasks(tasks, status=None):
     """
     Display tasks in the task list, optionally filtered by status.
@@ -87,13 +89,27 @@ def list_tasks(tasks, status=None):
                 filtered.append(task)
 
     if not filtered:
-        print("No tasks found.")
+        print(f"[bold red]","No tasks found.")
         return
-    for task in filtered:
-        print(
-            f"{task.title} | {task.description} | "
-            f"Due: {task.due_date} | Status: {task.status}"
+    
+    console = Console()
+    table = Table(title="TASK LIST")
+
+    table.add_column("Task Title")  
+    table.add_column("Task Description")
+    table.add_column("Due Date")
+    table.add_column("Task Status", style="green")
+
+
+    for task in filtered:    
+        table.add_row(
+            str(task.title),
+            str(task.description),
+            str(task.due_date),
+            str(task.status),
         )
+
+    console.print(table)
 
 
 def filter_tasks_by_status(tasks, status):
