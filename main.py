@@ -1,4 +1,4 @@
-from src.task_manager import add_task, delete_task, list_tasks
+from src.task_manager import add_task, delete_task, list_tasks, complete_task
 from src.file_handler import load_tasks
 from rich import print 
 from rich.table import Table
@@ -18,7 +18,8 @@ def main():
         table.add_row("1", "Add Task", style="green")
         table.add_row("2", "Delete Task",style="red")
         table.add_row("3", "List Tasks", style="blue")
-        table.add_row("4", "Exit", style="yellow")
+        table.add_row("4", "Complete Task", style="white")
+        table.add_row("5", "Exit", style="yellow")
 
         console.print(table)
 
@@ -36,7 +37,14 @@ def main():
                 print(f"[bold red]""Task not found.")
         elif choice == "3":
             list_tasks(tasks)
+
         elif choice == "4":
+            title = input("Task to complete: ")
+            if complete_task(tasks, title):
+                print(f"[bold green]""Task Completed succesfully")
+            else:
+                print(f"[bold red]""Task not found.")
+        elif choice == "5":            
             print(f"[bold magenta]""Exiting Task Manager.")
             break
         else:

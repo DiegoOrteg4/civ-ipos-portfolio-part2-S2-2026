@@ -63,6 +63,17 @@ def delete_task(tasks, title):
             return True
     return False
 
+def complete_task(tasks, title):
+    """
+    Complete tasks (update status)
+    """
+    for task in tasks:
+        if task.title == title:
+            task.status = "complete"
+            save_tasks(tasks)
+            return True       
+    return False
+
 def list_tasks(tasks, status=None):
     """
     Display tasks in the task list, optionally filtered by status.
@@ -78,6 +89,19 @@ def list_tasks(tasks, status=None):
     Side Effects:
         - Prints the list of tasks to the console.
     """
+    console = Console()
+    table_filter = Table(title="TASK LIST FILTER")
+
+    table_filter.add_column("Filter Options")
+
+    table_filter.add_row("complete")
+    table_filter.add_row("pending")
+    table_filter.add_row("[Enter] No filter")
+
+    console.print(table_filter)
+
+    filter_by_status = input("Enter your choice: ")
+    status = filter_by_status
     if not status:
         # If status is not set
         filtered = tasks
@@ -92,13 +116,12 @@ def list_tasks(tasks, status=None):
         print(f"[bold red]","No tasks found.")
         return
     
-    console = Console()
     table = Table(title="TASK LIST")
 
     table.add_column("Task Title")  
     table.add_column("Task Description")
     table.add_column("Due Date")
-    table.add_column("Task Status", style="green")
+    table.add_column("Task Status")
 
 
     for task in filtered:    
