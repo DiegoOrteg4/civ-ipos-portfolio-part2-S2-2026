@@ -17,6 +17,8 @@ def test_file_handler():
         print("Tasks loaded from the binary file:")
         pprint([task.to_dict() for task in tasks])  # Convert tasks to dict
 
+        
+
 
 if __name__ == "__main__":
     # Test Script: Save sample tasks and load them back

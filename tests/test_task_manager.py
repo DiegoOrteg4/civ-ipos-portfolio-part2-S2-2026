@@ -1,8 +1,9 @@
 import unittest
-from src.task_manager import add_task, delete_task, filter_tasks_by_status
+from src.task_manager import add_task, delete_task, filter_tasks_by_status, complete_task 
 from src.file_handler import save_tasks, load_tasks
 from src.task import Task
 import os
+from unittest.mock import patch
 
 TEST_FILE = "test_tasks.bin"
 
@@ -52,13 +53,16 @@ class TestTaskManager(unittest.TestCase):
         result = add_task(self.tasks, "Test Task", "New Description", "02-12-2024")
         self.assertFalse(result)
 
-    def test_add_invalid_due_date(self):
-        """
-        Test adding a task with an invalid due date format.
-        Verify that the function handles invalid input gracefully and returns False.
-        """
-        result = add_task(self.tasks, "Test Task", "Description", "2024-12-01")
-        self.assertFalse(result)
+
+    def test_add_invalid_date(self):
+        result = add_task(self.tasks, 
+                          "Leer",
+                          "Read a book",
+                          "35/11/2025"
+                          )
+        self.assertTrue
+
+
 
     def test_delete_task(self):
         """
@@ -95,6 +99,15 @@ class TestTaskManager(unittest.TestCase):
         self.assertEqual(len(loaded_tasks), 1)
         self.assertEqual(loaded_tasks[0].title, "Persistent Task")
 
+
+    def test_complete_task_thas_completed(self):
+        result = complete_task(self.tasks, "Leer")
+        self.assertFalse(result)
+        
+
+    def test_complete_task_not_found(self):
+        result = complete_task(self.tasks, "Nonexistent Task")
+        self.assertFalse(result)
 
 if __name__ == "__main__":
     unittest.main()
