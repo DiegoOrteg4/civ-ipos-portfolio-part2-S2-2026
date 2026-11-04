@@ -42,8 +42,6 @@ def main():
             title = input("Task to complete: ")
             if complete_task(tasks, title):
                 print(f"[bold green]""Task Completed succesfully")
-            else:
-                print(f"[bold red]""Task not found.")
         elif choice == "5":            
             print(f"[bold magenta]""Exiting Task Manager.")
             break

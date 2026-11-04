@@ -31,11 +31,15 @@ def add_task(tasks, title, description, due_date):
         return False
 
     # Validate due date format
-    try:
-        datetime.strptime(due_date, "%d-%m-%Y")
-    except ValueError:
-        print("Error: Invalid date format. Use DD-MM-YYYY.")
-        return False
+    while True:
+        
+        try:
+            datetime.strptime(due_date, "%d-%m-%Y")
+            break
+
+        except ValueError:
+            print("Error: Invalid date format. Use DD-MM-YYYY.")
+            due_date = input(" Use DD-MM-YYYY: ").strip()
 
     tasks.append(Task(title, description, due_date))
     save_tasks(tasks)
@@ -69,9 +73,14 @@ def complete_task(tasks, title):
     """
     for task in tasks:
         if task.title == title:
+            if task.status == "complete":
+                print("This task has been completed already")
+                return False
             task.status = "complete"
             save_tasks(tasks)
-            return True       
+            print(f"{title} completed succesfully.")
+            return True      
+    print("Task not found") 
     return False
 
 def list_tasks(tasks, status=None):
