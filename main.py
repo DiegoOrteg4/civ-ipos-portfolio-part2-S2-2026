@@ -3,13 +3,16 @@ from src.file_handler import load_tasks
 from rich import print 
 from rich.table import Table
 from rich.console import Console
-from rich.pretty import Pretty
+from src.scheduler import start_scheduler, run_scheduler
 
 
 def main():
     tasks = load_tasks()
     console = Console()
+    start_scheduler(tasks)
     while True:
+       
+
         table = Table(title="Task Manager CLI")
 
         table.add_column("No.", style="blue")
