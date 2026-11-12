@@ -1,4 +1,6 @@
 from src.task import Task
+import schedule
+import time 
 from src.file_handler import save_tasks
 from datetime import datetime
 from rich import print
@@ -73,12 +75,12 @@ def complete_task(tasks, title):
     """
     for task in tasks:
         if task.title == title:
-            if task.status == "complete":
+            if task.status == "completed":
                 print("This task has been completed already")
                 return False
-            task.status = "complete"
+            task.status = "Completed"
             save_tasks(tasks)
-            print(f"{title} completed succesfully.")
+            print(f"{title} Completed succesfully.")
             return True      
     print("Task not found") 
     return False
@@ -103,9 +105,8 @@ def list_tasks(tasks, status=None):
 
     table_filter.add_column("Filter Options")
 
-    table_filter.add_row("complete")
-    table_filter.add_row("pending")
-    table_filter.add_row("[Enter] No filter")
+    table_filter.add_row("Type...'completed'")
+    table_filter.add_row("Type...'pending'")
 
     console.print(table_filter)
 
@@ -114,6 +115,7 @@ def list_tasks(tasks, status=None):
     if not status:
         # If status is not set
         filtered = tasks
+        
     else:
         # Filter tasks based on their status
         filtered = []
@@ -121,9 +123,9 @@ def list_tasks(tasks, status=None):
             if task.status == status:
                 filtered.append(task)
 
-    if not filtered:
-        print(f"[bold red]","No tasks found.")
-        return
+        if not filtered:
+            print(f"[bold red]","No tasks found.")
+            return
     
     table = Table(title="TASK LIST")
 
